@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 
 import * as c3 from  'c3';
@@ -11,10 +11,13 @@ import * as c3 from  'c3';
 export class TesterComponent implements OnInit, AfterViewInit {
   chart;
   id;
-  chartType;
+  @Input() chartType:string;
+  
   constructor() {
+    
   }
   ngAfterViewInit(){
+    console.log(this.chartType);
     this.chart = c3.generate({
       bindto: ".chart",
       data: {
@@ -23,7 +26,7 @@ export class TesterComponent implements OnInit, AfterViewInit {
 	  ['Facebook', 98],
 	  ['YouTube', 2],
 	],
-	type:'pie'
+	type: this.chartType
       },
       legend: {
 	show: true
@@ -40,6 +43,7 @@ export class Charts{
   chartType = 'pie'; // default to pie yum
   data: FirebaseObjectObservable<any>;;
   collection = 'chartData';
+  
   constructor(db: AngularFireDatabase){
     this.data = db.object('/chartData');
   }
